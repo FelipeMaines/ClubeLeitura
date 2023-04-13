@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClubeLeitura.Junta;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,15 @@ using System.Threading.Tasks;
 
 namespace ClubeLeitura
 {
-    internal class Revista
+    public class Revista : Entidade
     {
         public string colecao;
         public int numeroEdicao;
         public int anoRevista;
         public bool emprestado;
         public Caixa caixa = new Caixa();
+
+        
         public Revista()
         {
 
@@ -25,9 +28,6 @@ namespace ClubeLeitura
             this.anoRevista = anoRevita;
         }
 
-        public static implicit operator List<object>(Revista v)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

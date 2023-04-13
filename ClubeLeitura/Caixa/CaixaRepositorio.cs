@@ -1,4 +1,5 @@
-﻿using ClubeLeitura.PegarDados;
+﻿using ClubeLeitura.Junta;
+using ClubeLeitura.PegarDados;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,19 +9,22 @@ using System.Threading.Tasks;
 
 namespace ClubeLeitura
 {
-    internal class CaixaRepositorio
+    internal class CaixaRepositorio : Repositorio
     {
+        Tela tela = new Tela();
+        Exibicao exibicao = new Exibicao();
+
         public static ArrayList ListaCaixas = new ArrayList();
-        public static void RegistarCaixa()
+        public void RegistarCaixa()
         {
            
             var caixa = new Caixa();
 
-            Tela.PegarDadosCaixa(caixa);
+            tela.PegarDadosCaixa(caixa);
 
             ListaCaixas.Add(caixa);
 
-            Tela.Mensagem("Caixa Adicionada com sucesso", ConsoleColor.Green);
+            exibicao.Mensagem("Caixa Adicionada com sucesso", ConsoleColor.Green);
             Console.ReadLine();
 
         }

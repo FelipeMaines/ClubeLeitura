@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClubeLeitura.Junta;
+
 
 namespace ClubeLeitura
 {
-    internal class Caixa
+    public class Caixa : Entidade
     {
         public string cor;
-        public int id;
         public string ediqueta;
         public List<Revista> revistas = new List<Revista>();
 

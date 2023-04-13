@@ -1,17 +1,14 @@
 ﻿
-using System.Collections.Generic;
-
+using ClubeLeitura.Junta;
 
 namespace ClubeLeitura
 {
-    internal class Emprestimo
+    public class Emprestimo : Entidade
     {
         public Amigo amigo;
         public Revista revista;
         public DateTime dataDesaida;
         public DateTime dataDevolucao;
-        public int id;
 
-        
     }
 }

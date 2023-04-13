@@ -1,17 +1,12 @@
-﻿using System.Collections;
+﻿using ClubeLeitura.Junta;
+using System.Collections;
 
 namespace ClubeLeitura.PegarDados
 {
-    internal class Tela
+    public  class Tela : Exibicao
     {
-        public static void Mensagem(string mensagem, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-            Console.WriteLine(mensagem);
-            Console.ResetColor();
-        }
-
-        internal static Revista PegarDadosRevista(Revista revista )
+       
+        public Revista PegarDadosRevista(Revista revista )
         {
             Console.Write("Qual o nome da revista: ");
             revista.colecao = Console.ReadLine();
@@ -22,22 +17,23 @@ namespace ClubeLeitura.PegarDados
             Console.Write("Qual o ano de lancamento da revista: ");
             revista.anoRevista = int.Parse(Console.ReadLine());
 
-            Tela.MostrarCaixas(CaixaRepositorio.ListaCaixas);
+            MostrarCaixas(CaixaRepositorio.ListaCaixas);
 
             ColocarRevistaCaixa(revista);
 
-            Tela.Mensagem("Revista Cadastrada com sucesso!", ConsoleColor.Green);
+            Mensagem("Revista Cadastrada com sucesso!", ConsoleColor.Green);
             Console.ReadLine();
 
             return revista;
         }
 
-        public static void ColocarRevistaCaixa(Revista revista )
+        public void ColocarRevistaCaixa(Revista revista )
         {
             Console.WriteLine("Qual o id da caixa que deseja inserir");
             int id = int.Parse(Console.ReadLine());
 
             Caixa caixa = null;
+
             foreach (Caixa item in CaixaRepositorio.ListaCaixas)
             {
                 if (item.id == id)
@@ -51,7 +47,7 @@ namespace ClubeLeitura.PegarDados
 
             if (id == -1)
             {
-                Tela.Mensagem("Caixa nao encontrada!", ConsoleColor.DarkRed);
+                Mensagem("Caixa nao encontrada!", ConsoleColor.DarkRed);
                 Console.ReadLine();
                 Program.MenuPrincipal(0);
             }
@@ -64,7 +60,23 @@ namespace ClubeLeitura.PegarDados
 
         }
 
-        internal static void PegarDadosAmigo(Amigo amigo)
+        public int PegarIdEmprestimo(List<Emprestimo> listaEmprestimo)
+        {
+            Console.WriteLine("Qual o id do emprestimo que deseja cancelar");
+            int id = int.Parse(Console.ReadLine());
+
+            foreach (Emprestimo item in listaEmprestimo)
+            {
+                if (item.id == id)
+                {
+                    return listaEmprestimo.IndexOf(item);
+                }
+                
+            }
+            return 404;
+        }
+
+        internal void PegarDadosAmigo(Amigo amigo)
         {
 
             Console.Write("Qual o nome do amigo:");
@@ -78,9 +90,11 @@ namespace ClubeLeitura.PegarDados
 
             Console.Write("Qual o edereco do amigo: ");
             amigo.endereco = Console.ReadLine();
+
+            amigo.id = AmigoRepositorio.amigosCadastrados.Count;
         }
 
-        public static void MostrarArrayAmigos(ArrayList array)
+        public void MostrarArrayAmigos(ArrayList array)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkBlue;
@@ -96,7 +110,7 @@ namespace ClubeLeitura.PegarDados
             Console.ResetColor();
         }
 
-        public static void MostrarCaixas(ArrayList ListaCaixas)
+        public void MostrarCaixas(ArrayList ListaCaixas)
         {
 
             Console.Clear();
@@ -112,7 +126,7 @@ namespace ClubeLeitura.PegarDados
             Console.ResetColor();
         }
 
-        internal static void PegarDadosCaixa(Caixa caixa)
+        internal void PegarDadosCaixa(Caixa caixa)
         {
             Console.WriteLine("Qual a cor da caixa: ");
             caixa.cor = Console.ReadLine();
@@ -122,28 +136,21 @@ namespace ClubeLeitura.PegarDados
 
             caixa.id = CaixaRepositorio.ListaCaixas.Count;
         }
-        public static void MostrarEmprestimosAbertos()
+        public void MostrarEmprestimosAbertos()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkBlue;
 
-            Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3, -25}", "Amigo", "Revista", "Data do Emprestimo", "Data Devolucao");
+            Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3, -25} |{4, -25}", "Amigo", "Revista", "Data do Emprestimo", "Data Devolucao", "Id");
 
             foreach (Emprestimo item in EmprestimoRepositorio.emprestimosAberto)
             {
-                Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3,-25}", item.amigo.nome, item.revista.colecao, item.dataDesaida, item.dataDevolucao);
+                Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3,-25} |{4, -25}", item.amigo.nome, item.revista.colecao, item.dataDesaida, item.dataDevolucao, item.id);
             }
             Console.ReadLine();
             Console.ResetColor();
         }
 
-        internal static string PegarInformacaoEmprestimo(string mensagem)
-        {
-
-            Console.WriteLine(mensagem);
-            string amigoNome = Console.ReadLine();
-
-            return amigoNome;
-        }
+       
     }
 }

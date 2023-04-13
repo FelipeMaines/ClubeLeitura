@@ -1,4 +1,5 @@
-﻿using ClubeLeitura.PegarDados;
+﻿using ClubeLeitura.Junta;
+using ClubeLeitura.PegarDados;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,35 +9,26 @@ using System.Threading.Tasks;
 
 namespace ClubeLeitura
 {
-    internal class AmigoRepositorio
+    public class AmigoRepositorio : Repositorio
     {
+        public Tela tela = new Tela();
+        Exibicao exibicao = new Exibicao();
+
+
         public static ArrayList amigosCadastrados = new ArrayList();
-        public static void CadastrarAmigo()
+        public void CadastrarAmigo()
         {
+
             var amigo = new Amigo();
 
-            Tela.PegarDadosAmigo(amigo);
+            tela.PegarDadosAmigo(amigo);
 
             amigosCadastrados.Add(amigo);
 
-            Tela.Mensagem("Amigo Cadastrado com sucesso", ConsoleColor.Green);
+            exibicao.Mensagem("Amigo Cadastrado com sucesso", ConsoleColor.Green);
             Console.ReadLine();
 
         }
-        public static int ProcurarListaNomeAmigo(string nome, ArrayList array)
-        {
-            foreach (Amigo item in array)
-            {
-               if (item.nome == nome)
-                {
-                    int id = array.IndexOf(item);
-                    return id;
-                }
-            }
-
-            Tela.Mensagem("Esse amigo nao foi cadastrado!", ConsoleColor.DarkRed);
-
-            return 404;
-        }
+        
     }
 }

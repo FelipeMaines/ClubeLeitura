@@ -5,14 +5,25 @@ namespace ClubeLeitura
 {
     internal class Program
     {
+        Program program = null;
+
         static void Main(string[] args)
         {
             int valorSwitch = 0;
             MenuPrincipal(valorSwitch);
+
+           
+
         }
 
-        static public void MenuPrincipal(int valorSwitch)
+         public static void MenuPrincipal(int valorSwitch)
         {
+            AmigoRepositorio amigoRepositorio = new AmigoRepositorio();
+            CaixaRepositorio caixaRepositorio = new CaixaRepositorio();
+            RevistaRepositorio revistaRepositorio = new RevistaRepositorio();
+            EmprestimoRepositorio emprestimoRepositorio = new EmprestimoRepositorio();
+            Tela tela = new Tela();
+
             while (true)
             {
 
@@ -25,6 +36,7 @@ namespace ClubeLeitura
                 Console.WriteLine("(3) Cadastrar Revista");
                 Console.WriteLine("(4) Cadastrar Emprestimo");
                 Console.WriteLine("(5) Emprestimos em Aberto");
+                Console.WriteLine("(6) Devolucao de livro");
                 valorSwitch = int.Parse(Console.ReadLine());
 
                 switch (valorSwitch)
@@ -32,29 +44,34 @@ namespace ClubeLeitura
                     case 1:
                         Console.WriteLine("Cadastrando Amigo\n");
                         AdicionarAmigoAutomatico(AmigoRepositorio.amigosCadastrados);
-                        AmigoRepositorio.CadastrarAmigo();
+                        amigoRepositorio.CadastrarAmigo();
 
                         break;
 
                     case 2:
                         Console.WriteLine("Caixa\n");
                         AdicionarCaixasAutomatico(CaixaRepositorio.ListaCaixas);
-                        CaixaRepositorio.RegistarCaixa();
+                        caixaRepositorio.RegistarCaixa();
                         break;
 
                     case 3:
                         Console.WriteLine("Revistas");
-                        RevistaRepositorio.CadastrarRevista();
+                        revistaRepositorio.CadastrarRevista();
                         break;
 
                     case 4:
                         Console.WriteLine("Emprestimo");
-                        EmprestimoRepositorio.AdicionarEmprestimoLista();
+                        emprestimoRepositorio.AdicionarEmprestimoLista();
                         break;
 
                     case 5:
                         Console.WriteLine("Emprestimos em aberto: \n");
-                        Tela.MostrarEmprestimosAbertos();
+                        tela.MostrarEmprestimosAbertos();
+                        break;
+
+                    case 6:
+                        Console.WriteLine("Devolucao \n");
+                        emprestimoRepositorio.DevolverLivro();
                         break;
 
 
