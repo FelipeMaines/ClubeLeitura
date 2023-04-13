@@ -1,4 +1,5 @@
 ﻿
+using ClubeLeitura.PegarDados;
 using System.Collections;
 
 
@@ -7,40 +8,20 @@ namespace ClubeLeitura
     internal class RevistaRepositorio
     {
 
-    public static ArrayList revistasCadastradas = new ArrayList();
+        public static ArrayList revistasCadastradas = new ArrayList();
+        public static int id;
         public static void CadastrarRevista()
         {
+            if (CaixaRepositorio.ListaCaixas.Count == 0)
+            {
+                Tela.Mensagem("Nao eh possivel cadastrar uma revista sem uma caixa!", ConsoleColor.DarkRed);
+                Console.ReadLine();
+                return;
+            }
             var revista = new Revista();
 
-            Console.Write("Qual o nome da revista: ");
-            revista.colecao = Console.ReadLine();
-
-            Console.Write("Qual o numero de edicao da revista: ");
-            revista.numeroEdicao = int.Parse(Console.ReadLine());
-
-            Console.Write("Qual o ano de lancamento da revista: ");
-            revista.anoRevista = int.Parse(Console.ReadLine());
-
-            CaixaRepositorio.MostrarCaixas(CaixaRepositorio.ListaCaixas);
-
-            Console.WriteLine("Qual o id da caixa que deseja inserir");
-            int id = int.Parse(Console.ReadLine());
-
-            RevistaRepositorio.ColocarRevistaCaixa(revista, id);
-
-            Program.MensagemVerde("Revista Cadastrada com sucesso!");
-            Console.ReadLine();
+            Tela.PegarDadosRevista(revista);
         }
-
-        public static void ColocarRevistaCaixa(Revista revista, int id)
-        {
-            id = CaixaRepositorio.ListaCaixas.IndexOf(id);
-            id += 1;
-
-            revista.caixa = (Caixa)CaixaRepositorio.ListaCaixas[id];
-            revistasCadastradas.Add(revista);
-        }
-
         public static void MostrarRevistasCadastradas(ArrayList array)
         {
             Console.Clear();
@@ -56,7 +37,6 @@ namespace ClubeLeitura
 
             Console.ResetColor();
         }
-
         public static int ProcurarListaNomeRevista(string nome, ArrayList array)
         {
             foreach (Revista item in array)
@@ -65,8 +45,8 @@ namespace ClubeLeitura
 
                 if (revista.colecao == nome)
                 {
-                    int id = array.IndexOf(nome);
-                    return id + 1;
+                    int id = array.IndexOf(item);
+                    return id;
                 }
             }
 

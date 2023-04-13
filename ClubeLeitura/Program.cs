@@ -1,19 +1,23 @@
-﻿using System.Collections;
+﻿using ClubeLeitura.PegarDados;
+using System.Collections;
 
 namespace ClubeLeitura
 {
     internal class Program
     {
-
-
-       
         static void Main(string[] args)
         {
             int valorSwitch = 0;
+            MenuPrincipal(valorSwitch);
+        }
 
-
+        static public void MenuPrincipal(int valorSwitch)
+        {
             while (true)
             {
+
+                //Corrigir erro disponibilidade da revista mesmo n tendo sido pega
+
                 Console.Clear();
                 Console.WriteLine("Qual opcao deseja afetuar:");
                 Console.WriteLine("(1) Cadastrar Amigo");
@@ -28,7 +32,7 @@ namespace ClubeLeitura
                     case 1:
                         Console.WriteLine("Cadastrando Amigo\n");
                         AdicionarAmigoAutomatico(AmigoRepositorio.amigosCadastrados);
-                        //Amigo.CadastrarAmigo();
+                        AmigoRepositorio.CadastrarAmigo();
 
                         break;
 
@@ -50,21 +54,13 @@ namespace ClubeLeitura
 
                     case 5:
                         Console.WriteLine("Emprestimos em aberto: \n");
-                        EmprestimoRepositorio.MostrarEmprestimosAbertos();
+                        Tela.MostrarEmprestimosAbertos();
                         break;
+
 
                 }
             }
         }
-
-        public static void MensagemVerde(string mensagem)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(mensagem);
-            Console.ResetColor();
-        }
-
-
         /*  private static int ProcurarListaId(int id, ArrayList array)
           {
               id = int.Parse(Console.ReadLine());

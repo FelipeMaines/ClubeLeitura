@@ -1,7 +1,9 @@
-﻿using System;
+﻿using ClubeLeitura.PegarDados;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,13 +16,26 @@ namespace ClubeLeitura
 
         public static void AdicionarEmprestimoLista()
         {
+            if(AmigoRepositorio.amigosCadastrados.Count == 0)
+            {
+                Tela.Mensagem("Nenhum amigo cadastrado para fazer um emprestimo!", ConsoleColor.DarkRed);
+                Console.ReadLine();
+                return;
+            }
+
+            else if (RevistaRepositorio.revistasCadastradas.Count == 0)
+            {
+                Tela.Mensagem("Nenhuma revista cadastrada para fazer um emprestimo!", ConsoleColor.DarkRed);
+                Console.ReadLine();
+                return;
+            }
+
             var emprestimo = new Emprestimo();
             Console.Clear();
 
-            AmigoRepositorio.MostrarArrayAmigos(AmigoRepositorio.amigosCadastrados);
+            Tela.MostrarArrayAmigos(AmigoRepositorio.amigosCadastrados);
 
-            Console.WriteLine("Qual o nome do amigo que sera emprestado a revista");
-            string amigoNome = Console.ReadLine();
+            string amigoNome = Tela.PegarInformacaoEmprestimo("Qual o nome do amigo que pegara a revista");
 
             //Descobre o inndex do objeto no array pelo nome
             int id = AmigoRepositorio.ProcurarListaNomeAmigo(amigoNome, AmigoRepositorio.amigosCadastrados);
@@ -30,7 +45,6 @@ namespace ClubeLeitura
                 Console.WriteLine("Erro!");
                 return;
             }
-
 
             emprestimo.amigo = (Amigo)AmigoRepositorio.amigosCadastrados[id];
 
@@ -45,13 +59,11 @@ namespace ClubeLeitura
                 return;
             }
 
-
             Console.Clear();
 
             RevistaRepositorio.MostrarRevistasCadastradas(RevistaRepositorio.revistasCadastradas);
 
-            Console.WriteLine("Qual o nome da revista? ");
-            string nomeRevista = Console.ReadLine();
+            string nomeRevista = Tela.PegarInformacaoEmprestimo("Qual o nome da revista? ");
 
             //Descobre o index do objeto no array
             int idRevista = RevistaRepositorio.ProcurarListaNomeRevista(nomeRevista, RevistaRepositorio.revistasCadastradas);
@@ -62,30 +74,29 @@ namespace ClubeLeitura
                 return;
             }
 
-            emprestimo.revista = (Revista)RevistaRepositorio.revistasCadastradas[idRevista];
+            Revista revista = (Revista)RevistaRepositorio.revistasCadastradas[idRevista];
+
+            if (revista.emprestado == true)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Tela.Mensagem("Revista ja empresatada", ConsoleColor.DarkRed);
+                Console.ReadLine();
+                Console.ResetColor();
+                return;
+            }
+
+            emprestimo.revista = revista;
+            revista.emprestado = true;
             emprestimo.dataDesaida = DateTime.Today.Date;
             emprestimo.dataDevolucao = DateTime.Today.AddDays(30);
 
             emprestimosAberto.Add(emprestimo);
             amigo.emprestado = true;
 
-            Program.MensagemVerde("Emprestimo Cadastrado com sucesso!");
+            Tela.Mensagem("Emprestimo Cadastrado com sucesso!", ConsoleColor.Green);
             Console.ReadLine();
         }
 
-        public static void MostrarEmprestimosAbertos()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-
-            Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3, -25}", "Amigo", "Revista", "Data do Emprestimo", "Data Devolucao");
-
-            foreach (Emprestimo item in emprestimosAberto)
-            {
-                Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3,-25}", item.amigo.nome, item.revista.colecao, item.dataDesaida, item.dataDevolucao);
-            }
-            Console.ReadLine();
-            Console.ResetColor();
-        }
+       
     }
 }

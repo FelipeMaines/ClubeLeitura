@@ -12,8 +12,8 @@ namespace ClubeLeitura
         public string colecao;
         public int numeroEdicao;
         public int anoRevista;
-        public Caixa caixa;
-
+        public bool emprestado;
+        public Caixa caixa = new Caixa();
         public Revista()
         {
 
@@ -25,11 +25,9 @@ namespace ClubeLeitura
             this.anoRevista = anoRevita;
         }
 
-
-
-
-       
-
-       
+        public static implicit operator List<object>(Revista v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
