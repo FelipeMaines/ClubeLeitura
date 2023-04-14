@@ -12,8 +12,8 @@ namespace ClubeLeitura
 {
     internal class EmprestimoRepositorio : Repositorio
     {
-        public static ArrayList emprestimpoFeitos = new ArrayList();
-        public static List<Emprestimo> emprestimosAberto = new List<Emprestimo>();
+        private static ArrayList emprestimpoFeitos = new ArrayList();
+        private static List<Emprestimo> emprestimosAberto = new List<Emprestimo>();
         Tela tela = new Tela();
         Exibicao exibicao = new Exibicao();
 
@@ -59,7 +59,6 @@ namespace ClubeLeitura
             //Verifica se o amigo ja pegou um livro emprestado
             if (amigo.emprestado == true)
             {
-               // MostrarListaEmprestimos(emprestimpoFeitos);
                 Console.WriteLine("\nEsse amigo ja tem uma revista emprestada!");
                 Console.ReadLine();
                 return;
@@ -107,6 +106,13 @@ namespace ClubeLeitura
 
         public void DevolverLivro()
         {
+            if(emprestimosAberto.Count == 0)
+            {
+                exibicao.Mensagem("Eh preciso ter um emprestimo em aberto para uma devolucao", ConsoleColor.Red);
+                Console.ReadLine();
+                return;
+            }
+
             Console.Clear();
             tela.MostrarEmprestimosAbertos();
             int id = tela.PegarIdEmprestimo(emprestimosAberto);
@@ -115,11 +121,6 @@ namespace ClubeLeitura
             var amigoRevista = emprestimosAberto[id].revista.emprestado = false;
 
             emprestimosAberto.RemoveAt(id);
-
-
-
-
-
         }
 
        

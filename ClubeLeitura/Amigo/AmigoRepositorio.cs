@@ -13,8 +13,6 @@ namespace ClubeLeitura
     {
         public Tela tela = new Tela();
         Exibicao exibicao = new Exibicao();
-
-
         public static ArrayList amigosCadastrados = new ArrayList();
         public void CadastrarAmigo()
         {

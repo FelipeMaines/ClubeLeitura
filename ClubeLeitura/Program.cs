@@ -36,7 +36,8 @@ namespace ClubeLeitura
                 Console.WriteLine("(3) Cadastrar Revista");
                 Console.WriteLine("(4) Cadastrar Emprestimo");
                 Console.WriteLine("(5) Emprestimos em Aberto");
-                Console.WriteLine("(6) Devolucao de livro");
+                Console.WriteLine("(6) Todos os emprestimos feitos ate agora");
+                Console.WriteLine("(7) Devolver Livro");
                 valorSwitch = int.Parse(Console.ReadLine());
 
                 switch (valorSwitch)
@@ -70,6 +71,12 @@ namespace ClubeLeitura
                         break;
 
                     case 6:
+                        Console.WriteLine("Todos os emprestimos Feitos: \n");
+                        tela.MostrarTodosOsEmprestimosFeitos();
+                        break;
+
+
+                    case 7:
                         Console.WriteLine("Devolucao \n");
                         emprestimoRepositorio.DevolverLivro();
                         break;

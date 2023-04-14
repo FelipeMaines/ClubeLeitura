@@ -27,7 +27,7 @@ namespace ClubeLeitura.PegarDados
             return revista;
         }
 
-        public void ColocarRevistaCaixa(Revista revista )
+        public void ColocarRevistaCaixa(Revista revista)
         {
             Console.WriteLine("Qual o id da caixa que deseja inserir");
             int id = int.Parse(Console.ReadLine());
@@ -43,8 +43,6 @@ namespace ClubeLeitura.PegarDados
                 }
             }
 
-
-
             if (id == -1)
             {
                 Mensagem("Caixa nao encontrada!", ConsoleColor.DarkRed);
@@ -55,9 +53,6 @@ namespace ClubeLeitura.PegarDados
 
             revista.caixa = (Caixa)CaixaRepositorio.ListaCaixas[id];
             RevistaRepositorio.revistasCadastradas.Add(revista);
-
-
-
         }
 
         public int PegarIdEmprestimo(List<Emprestimo> listaEmprestimo)
@@ -78,7 +73,6 @@ namespace ClubeLeitura.PegarDados
 
         internal void PegarDadosAmigo(Amigo amigo)
         {
-
             Console.Write("Qual o nome do amigo:");
             amigo.nome = Console.ReadLine();
 
@@ -106,13 +100,11 @@ namespace ClubeLeitura.PegarDados
                 Console.WriteLine("|{0,-15} |{1,-15} |{2,-20} |{3,-20}", item.nome, item.nomeRespostavel, item.telefone, item.endereco);
             }
 
-
             Console.ResetColor();
         }
 
         public void MostrarCaixas(ArrayList ListaCaixas)
         {
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkBlue;
 
@@ -151,6 +143,27 @@ namespace ClubeLeitura.PegarDados
             Console.ResetColor();
         }
 
-       
+       public void MostrarTodosOsEmprestimosFeitos()
+        {
+            if (EmprestimoRepositorio.emprestimpoFeitos.Count == 0)
+            {
+                Mensagem("Nenhum emprestimo feito ate agora!", ConsoleColor.DarkRed);
+                Console.ReadLine();
+                return;
+
+            }
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+
+            Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3, -25} |{4, -25}", "Amigo", "Revista", "Data do Emprestimo", "Data Devolucao", "Id");
+
+            foreach (Emprestimo item in EmprestimoRepositorio.emprestimpoFeitos)
+            {
+                Console.WriteLine("|{0,-15} |{1,-25} |{2,-25} |{3,-25} |{4, -25}", item.amigo.nome, item.revista.colecao, item.dataDesaida, item.dataDevolucao, item.id);
+            }
+            Console.ReadLine();
+            Console.ResetColor();
+        }
     }
 }
