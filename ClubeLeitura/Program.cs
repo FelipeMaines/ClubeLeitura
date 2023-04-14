@@ -44,14 +44,14 @@ namespace ClubeLeitura
                 {
                     case 1:
                         Console.WriteLine("Cadastrando Amigo\n");
-                        AdicionarAmigoAutomatico(AmigoRepositorio.amigosCadastrados);
+                        //AdicionarAmigoAutomatico(AmigoRepositorio.amigosCadastrados);
                         amigoRepositorio.CadastrarAmigo();
 
                         break;
 
                     case 2:
                         Console.WriteLine("Caixa\n");
-                        AdicionarCaixasAutomatico(CaixaRepositorio.ListaCaixas);
+                        //AdicionarCaixasAutomatico(CaixaRepositorio.ListaCaixas);
                         caixaRepositorio.RegistarCaixa();
                         break;
 
@@ -90,7 +90,7 @@ namespace ClubeLeitura
               id = int.Parse(Console.ReadLine());
               id = array.IndexOf(id);
               return id + 1;
-          }*/
+          
         public static void AdicionarAmigoAutomatico(ArrayList listaAmigos)
         {
             var amigo = new Amigo();
@@ -139,7 +139,7 @@ namespace ClubeLeitura
             listaCaixas.Add(caixa2);
         }
 
-        /*
+        
          Arrumar 
         5 - Arrumar requisitos {
 

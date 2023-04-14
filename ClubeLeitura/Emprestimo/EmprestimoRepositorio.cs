@@ -12,8 +12,8 @@ namespace ClubeLeitura
 {
     internal class EmprestimoRepositorio : Repositorio
     {
-        private static ArrayList emprestimpoFeitos = new ArrayList();
-        private static List<Emprestimo> emprestimosAberto = new List<Emprestimo>();
+        public static ArrayList emprestimpoFeitos = new ArrayList();
+        public static List<Emprestimo> emprestimosAberto = new List<Emprestimo>();
         Tela tela = new Tela();
         Exibicao exibicao = new Exibicao();
 
