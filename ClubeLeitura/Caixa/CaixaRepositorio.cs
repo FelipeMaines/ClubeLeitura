@@ -15,18 +15,20 @@ namespace ClubeLeitura
         Exibicao exibicao = new Exibicao();
 
         public static ArrayList ListaCaixas = new ArrayList();
-        public void RegistarCaixa()
+        public  void RegistarCaixa()
         {
            
-            var caixa = new Caixa();
+            Caixa caixa = new Caixa();
 
             tela.PegarDadosCaixa(caixa);
 
-            ListaCaixas.Add(caixa);
+            Adicionar(caixa, ListaCaixas);
 
             exibicao.Mensagem("Caixa Adicionada com sucesso", ConsoleColor.Green);
             Console.ReadLine();
 
         }
+
+        
     }
 }

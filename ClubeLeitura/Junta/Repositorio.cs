@@ -8,9 +8,9 @@ namespace ClubeLeitura.Junta
 
         Exibicao exibicao = new Exibicao();
 
-        public int ProcurarListaNomeAmigo(string nome, ArrayList array)
+        public int ProcurarListaNomeAmigo(string nome, ArrayList array, string mensagem)
         {
-            foreach (Amigo item in array)
+            foreach (Entidade item in array)
             {
                 if (item.nome == nome)
                 {
@@ -19,25 +19,7 @@ namespace ClubeLeitura.Junta
                 }
             }
 
-            exibicao.Mensagem("Esse amigo nao foi cadastrado!", ConsoleColor.DarkRed);
-
-            return 404;
-        }
-
-        public  int ProcurarListaNomeRevista(string nome, ArrayList array)
-        {
-            foreach (Revista item in array)
-            {
-                var revista = item;
-
-                if (revista.colecao == nome)
-                {
-                    int id = array.IndexOf(item);
-                    return id;
-                }
-            }
-
-            Console.WriteLine("Essa revista nao foi cadastrada!");
+            exibicao.Mensagem(mensagem, ConsoleColor.DarkRed);
 
             return 404;
         }
@@ -57,5 +39,24 @@ namespace ClubeLeitura.Junta
 
             Console.ResetColor();
         }
+
+        public void Adicionar(Entidade item, ArrayList array)
+        {
+            array.Add(item);
+        }
+
+        public bool VerificarCount(ArrayList array, string mensagem)
+        {
+            if (array.Count == 0)
+            {
+                exibicao.Mensagem(mensagem, ConsoleColor.Red);
+                Console.ReadLine();
+                return false;
+            }
+            return true;
+        }
+
+
+
     }
 }

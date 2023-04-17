@@ -21,7 +21,7 @@ namespace ClubeLeitura
 
             tela.PegarDadosAmigo(amigo);
 
-            amigosCadastrados.Add(amigo);
+            Adicionar(amigo, amigosCadastrados);
 
             exibicao.Mensagem("Amigo Cadastrado com sucesso", ConsoleColor.Green);
             Console.ReadLine();

@@ -4,13 +4,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClubeLeitura
 {
-    internal class EmprestimoRepositorio : Repositorio
+    public class EmprestimoRepositorio : Repositorio
     {
         public static ArrayList emprestimpoFeitos = new ArrayList();
         public static List<Emprestimo> emprestimosAberto = new List<Emprestimo>();
@@ -20,49 +22,30 @@ namespace ClubeLeitura
         public void AdicionarEmprestimoLista()
         {
 
-
-            if(AmigoRepositorio.amigosCadastrados.Count == 0)
-            {
-                exibicao.Mensagem("Nenhum amigo cadastrado para fazer um emprestimo!", ConsoleColor.DarkRed);
-                Console.ReadLine();
+            if (!VerificarCount(AmigoRepositorio.amigosCadastrados, "Nenhum amigo cadastrado para fazer um emprestimo!"))
                 return;
-            }
 
-            else if (RevistaRepositorio.revistasCadastradas.Count == 0)
-            {
-                exibicao.Mensagem("Nenhuma revista cadastrada para fazer um emprestimo!", ConsoleColor.DarkRed);
-                Console.ReadLine();
+            if(!VerificarCount(RevistaRepositorio.revistasCadastradas, "Nenhuma revista cadastrada para fazer um emprestimo!"))
                 return;
-            }
 
             var emprestimo = new Emprestimo();
-            Console.Clear();
 
+            Console.Clear();
             tela.MostrarArrayAmigos(AmigoRepositorio.amigosCadastrados);
 
             // Pega os dados no classe Tela
             string amigoNome = exibicao.PegarInformacaoEmprestimo("Qual o nome do amigo que pegara a revista");
 
             //Descobre o inndex do objeto no array pelo nome
-            int id = ProcurarListaNomeAmigo(amigoNome, AmigoRepositorio.amigosCadastrados);
+            int id = ProcurarListaNomeAmigo(amigoNome, AmigoRepositorio.amigosCadastrados, "Amigo nao cadastrado");
 
-            if (id == 404)
-            {
-                Console.WriteLine("Erro!");
-                return;
-            }
-
+            VerificarId404(id, "Id nao encontrado");
             emprestimo.amigo = (Amigo)AmigoRepositorio.amigosCadastrados[id];
-
             Amigo amigo = (Amigo)AmigoRepositorio.amigosCadastrados[id];
 
             //Verifica se o amigo ja pegou um livro emprestado
-            if (amigo.emprestado == true)
-            {
-                Console.WriteLine("\nEsse amigo ja tem uma revista emprestada!");
-                Console.ReadLine();
-                return;
-            }
+
+            VerificarAmigoPossuiEmprestimo(amigo);
 
             Console.Clear();
 
@@ -71,24 +54,13 @@ namespace ClubeLeitura
             string nomeRevista = tela.PegarInformacaoEmprestimo("Qual o nome da revista? ");
 
             //Descobre o index do objeto no array
-            int idRevista = ProcurarListaNomeRevista(nomeRevista, RevistaRepositorio.revistasCadastradas);
+            int idRevista = ProcurarListaNomeAmigo(nomeRevista, RevistaRepositorio.revistasCadastradas, "Revista nao cadastrada");
 
-            if (idRevista == 404)
-            {
-                Console.WriteLine("Revista nao cadastrada!");
-                return;
-            }
+            VerificarId404(idRevista, "Revista nao cadastrada");
 
             Revista revista = (Revista)RevistaRepositorio.revistasCadastradas[idRevista];
 
-            if (revista.emprestado == true)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                exibicao.Mensagem("Revista ja empresatada", ConsoleColor.DarkRed);
-                Console.ReadLine();
-                Console.ResetColor();
-                return;
-            }
+            VerificarRevistaEmprestada(revista);
 
             emprestimo.id = emprestimpoFeitos.Count; 
             emprestimo.revista = revista;
@@ -96,7 +68,8 @@ namespace ClubeLeitura
             emprestimo.dataDesaida = DateTime.Today.Date;
             emprestimo.dataDevolucao = DateTime.Today.AddDays(30);
 
-            emprestimpoFeitos.Add(emprestimo);
+            Adicionar(emprestimo, emprestimpoFeitos);
+
             emprestimosAberto.Add(emprestimo);
             amigo.emprestado = true;
 
@@ -106,9 +79,9 @@ namespace ClubeLeitura
 
         public void DevolverLivro()
         {
-            if(emprestimosAberto.Count == 0)
+            if (emprestimosAberto.Count == 0)
             {
-                exibicao.Mensagem("Eh preciso ter um emprestimo em aberto para uma devolucao", ConsoleColor.Red);
+                exibicao.Mensagem("Eh preciso ter um emprestimo em aberto para uma devolucao", ConsoleColor.Red); 
                 Console.ReadLine();
                 return;
             }
@@ -117,10 +90,43 @@ namespace ClubeLeitura
             tela.MostrarEmprestimosAbertos();
             int id = tela.PegarIdEmprestimo(emprestimosAberto);
 
-            var amigoEmprestimo = emprestimosAberto[id].amigo.emprestado = false;
-            var amigoRevista = emprestimosAberto[id].revista.emprestado = false;
+            emprestimosAberto[id].amigo.emprestado = false;
+            emprestimosAberto[id].revista.emprestado = false;
 
             emprestimosAberto.RemoveAt(id);
+        }
+
+        public void VerificarId404 (int id, string mensagem)
+        {
+            if (id == 404)
+            {
+                Console.WriteLine(mensagem);
+                return;
+            }
+        }
+
+        public void VerificarRevistaEmprestada(Revista revista)
+        {
+            if (revista.emprestado == true)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                exibicao.Mensagem("Revista ja empresatada", ConsoleColor.DarkRed);
+                Console.ReadLine();
+                Console.ResetColor();
+                return;
+            }
+        }
+
+        public void VerificarAmigoPossuiEmprestimo(Amigo amigo)
+        {
+            if (amigo.emprestado == true)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                exibicao.Mensagem("Amigo ja possui uma revista emprestada", ConsoleColor.DarkRed);
+                Console.ReadLine();
+                Console.ResetColor();
+                return;
+            }
         }
 
        

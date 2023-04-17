@@ -1,5 +1,7 @@
 ﻿
 
+using System.Collections;
+
 namespace ClubeLeitura.Junta
 {
     public class Exibicao
@@ -19,5 +21,7 @@ namespace ClubeLeitura.Junta
 
             return amigoNome;
         }
+
+        
     }
 }

@@ -17,15 +17,14 @@ namespace ClubeLeitura
         public static int id;
         public void CadastrarRevista()
         {
-            if (CaixaRepositorio.ListaCaixas.Count == 0)
-            {
-                exibicao.Mensagem("Nao eh possivel cadastrar uma revista sem uma caixa!", ConsoleColor.DarkRed);
-                Console.ReadLine();
-                return;
-            }
+           
+            VerificarCount(CaixaRepositorio.ListaCaixas, "Eh preciso ter um emprestimo em aberto para uma devolucao");
+
             var revista = new Revista();
 
-            tela.PegarDadosRevista(revista);
+            Revista revistaFinal = tela.PegarDadosRevista(revista);
+
+            Adicionar(revistaFinal, revistasCadastradas);
         }
         
         

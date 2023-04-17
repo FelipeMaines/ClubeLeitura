@@ -9,5 +9,8 @@ namespace ClubeLeitura.Junta
     public class Entidade
     {
         public int id;
+        public string nome;
+
+
     }
 }
