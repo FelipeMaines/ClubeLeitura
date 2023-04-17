@@ -2,7 +2,7 @@
 using ClubeLeitura.Junta;
 using ClubeLeitura.PegarDados;
 using System.Collections;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace ClubeLeitura
 {
@@ -17,14 +17,23 @@ namespace ClubeLeitura
         public static int id;
         public void CadastrarRevista()
         {
-           
-            VerificarCount(CaixaRepositorio.ListaCaixas, "Eh preciso ter um emprestimo em aberto para uma devolucao");
+
+            if (!VerificarCount(CaixaRepositorio.ListaCaixas, "Eh preciso ter um emprestimo em aberto para uma devolucao"))
+                return;
 
             var revista = new Revista();
 
             Revista revistaFinal = tela.PegarDadosRevista(revista);
 
+            ColocarRevistaCaixa(revistaFinal);
+
+            exibicao.Mensagem("Inserido com sucesso", ConsoleColor.Red);
+
             Adicionar(revistaFinal, revistasCadastradas);
+
+            
+
+            
         }
         
         

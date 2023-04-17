@@ -96,15 +96,6 @@ namespace ClubeLeitura
             emprestimosAberto.RemoveAt(id);
         }
 
-        public void VerificarId404 (int id, string mensagem)
-        {
-            if (id == 404)
-            {
-                Console.WriteLine(mensagem);
-                return;
-            }
-        }
-
         public void VerificarRevistaEmprestada(Revista revista)
         {
             if (revista.emprestado == true)

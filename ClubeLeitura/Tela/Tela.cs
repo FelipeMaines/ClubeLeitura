@@ -8,6 +8,7 @@ namespace ClubeLeitura.PegarDados
 
         public Revista PegarDadosRevista(Revista revista)
         {
+
             Console.Write("Qual o nome da revista: ");
             revista.colecao = Console.ReadLine();
 
@@ -19,38 +20,9 @@ namespace ClubeLeitura.PegarDados
 
             MostrarCaixas(CaixaRepositorio.ListaCaixas);
 
-            ColocarRevistaCaixa(revista);
-
-            Mensagem("Revista Cadastrada com sucesso!", ConsoleColor.Green);
-            Console.ReadLine();
-
             return revista;
         }
-        public void ColocarRevistaCaixa(Revista revista)
-        {
-            Console.WriteLine("Qual o id da caixa que deseja inserir");
-            int id = int.Parse(Console.ReadLine());
 
-            Caixa caixa = null;
-
-            foreach (Caixa item in CaixaRepositorio.ListaCaixas)
-            {
-                if (item.id == id)
-                {
-                    caixa = item;
-                    break;
-                }
-            }
-
-            if (id == -1)
-            {
-                Mensagem("Caixa nao encontrada!", ConsoleColor.DarkRed);
-                Console.ReadLine();
-                Program.MenuPrincipal(0);
-            }
-
-            revista.caixa = (Caixa)CaixaRepositorio.ListaCaixas[id];
-        }
         public int PegarIdEmprestimo(List<Emprestimo> listaEmprestimo)
         {
             Console.WriteLine("Qual o id do emprestimo que deseja cancelar");
@@ -82,6 +54,16 @@ namespace ClubeLeitura.PegarDados
 
             amigo.id = AmigoRepositorio.amigosCadastrados.Count;
         }
+        internal void PegarDadosCaixa(Caixa caixa)
+        {
+            Console.WriteLine("Qual a cor da caixa: ");
+            caixa.cor = Console.ReadLine();
+
+            Console.WriteLine("Qual a ediqueta da caixa: ");
+            caixa.ediqueta = Console.ReadLine();
+
+            caixa.id = CaixaRepositorio.ListaCaixas.Count;
+        }
         public void MostrarArrayAmigos(ArrayList array)
         {
             Console.Clear();
@@ -109,16 +91,6 @@ namespace ClubeLeitura.PegarDados
             }
 
             Console.ResetColor();
-        }
-        internal void PegarDadosCaixa(Caixa caixa)
-        {
-            Console.WriteLine("Qual a cor da caixa: ");
-            caixa.cor = Console.ReadLine();
-
-            Console.WriteLine("Qual a ediqueta da caixa: ");
-            caixa.ediqueta = Console.ReadLine();
-
-            caixa.id = CaixaRepositorio.ListaCaixas.Count;
         }
         public void MostrarEmprestimosAbertos()
         {

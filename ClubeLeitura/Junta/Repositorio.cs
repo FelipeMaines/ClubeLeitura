@@ -56,7 +56,42 @@ namespace ClubeLeitura.Junta
             return true;
         }
 
+        public int PegarPorId(int id,Entidade varivel)
+        {
+            Caixa caixa = null;
 
+            foreach (Entidade item in CaixaRepositorio.ListaCaixas)
+            {
+                if (item.id == id)
+                {
+                    return id;
+                }
+            }
+            return 404;
+        }
+
+        public void VerificarId404(int id, string mensagem)
+        {
+            if (id == 404)
+            {
+                Console.WriteLine(mensagem);
+                return;
+            }
+        }
+
+        public void ColocarRevistaCaixa(Revista revista)
+        {
+            Console.WriteLine("Qual o id da caixa que deseja inserir");
+            int id = int.Parse(Console.ReadLine());
+
+            Caixa caixa = null;
+
+            int idItem = PegarPorId(id, caixa);
+
+            VerificarId404(idItem, "Caixa inexistente");
+
+            revista.caixa = (Caixa)CaixaRepositorio.ListaCaixas[id];
+        }
 
     }
 }
